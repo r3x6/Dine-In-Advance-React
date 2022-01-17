@@ -24,6 +24,28 @@ const NewCfmPage = (props) => {
 
   // OTHER REDUCERS HERE, WITH USEEFFECT TO SPECIFY TRIGGER IF NECESSARY
 
+  const handleSaveNewBooking = () => {
+    // CALL BACKEND API HERE
+    //
+    // const apiAction = async (para) => {
+    //   const res = await fetch(
+    //     `https://apiURL/${para}`,
+    //     { method: "HTML VERB"}
+    //   );
+    //   const data = await res.json();
+    //   return data;
+    // };
+    //
+    // IF NECESSARY, THROW IN REDUCER HERE TO HANDLE FETCHED DATA (THIS IS FOR ONLOAD)
+    // const handleData = async () => {
+    //   const receivedData = await apiAction("someParameter");
+    //   dispatch(mainPgActions.reducerName(receivedData));
+    // };
+    // handleData();
+    //
+    // REMOVES DEPENDENCY WARNING (DO NOT REMOVE THE COMMENT FOR NEXT LINE)
+  };
+
   // PAGE HTML TEMPLATE WITH COMPONENTS WHERE NECESSARY (STATIC PARTS ARE AS DEFINED IN MAINPAGE)
   return (
     <div className={styles.mainDiv}>
@@ -59,9 +81,8 @@ const NewCfmPage = (props) => {
           </tr>
         </tbody>
       </table>
-      <NavLink to="/">
-        <button typeof="submit">Confirm Booking</button>
-      </NavLink>
+
+      <button onClick={handleSaveNewBooking}>Confirm Booking</button>
 
       {/* ADD NAVLINK TO GO TO OTHER PAGES AS PER REQUIRED (CLASS NAME IS FOR ACTIVESTYLES) */}
       {/* <NavLink
