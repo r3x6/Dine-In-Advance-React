@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Navigate, Routes } from "react-router-dom";
+import styles from "./MainPage.module.css";
 
 import { mainPgActions } from "../../store/mainPg";
 
@@ -45,23 +46,25 @@ const MainPage = () => {
 
   // PAGE HTML TEMPLATE WITH COMPONENTS WHERE NECESSARY
   return (
-    <div className="container">
-      <header>MAIN PAGE</header>
-      {/* PARTS THAT CHANGE WITH THE PAGES, ANYTHING U WANNA KEEP STATIC PUT OUTSIDE */}
-      <div>
-        <Routes>
-          <Route path="/" element={<Navigate replace to="/main" />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="/confirmation" element={<NewCfmPg />} />
-          <Route path="/edit/:bookingId" element={<EditPg />} />
-          <Route
-            path="//edit/:bookingId/confirmation"
-            element={<EditCfmPg />}
-          />
-        </Routes>
-        {/* IN OTHER PAGES, USE NAVLINK TO ANY OF THESE SET ROUTES */}
+    <div className={styles.mainPageContainer}>
+      <div className={styles.dashboard}>
+        <header>MAIN PAGE</header>
+        {/* PARTS THAT CHANGE WITH THE PAGES, ANYTHING U WANNA KEEP STATIC PUT OUTSIDE */}
+        <div>
+          <Routes>
+            <Route path="/" element={<Navigate replace to="/main" />} />
+            <Route path="/main" element={<Main />} />
+            <Route path="/confirmation" element={<NewCfmPg />} />
+            <Route path="/edit/:bookingId" element={<EditPg />} />
+            <Route
+              path="//edit/:bookingId/confirmation"
+              element={<EditCfmPg />}
+            />
+          </Routes>
+          {/* IN OTHER PAGES, USE NAVLINK TO ANY OF THESE SET ROUTES */}
+        </div>
+        <footer></footer>
       </div>
-      <footer></footer>
     </div>
   );
 };
