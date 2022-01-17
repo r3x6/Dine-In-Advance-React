@@ -7,9 +7,9 @@ import { mainPgActions } from "../../store/mainPg";
 // IMPORT NECESSARY COMPONENTS HERE
 // import Component from "./fileName";
 import Main from "./Main";
-import NewCfmPg from "../NewCfmPage/NewCfmPg";
-import EditPg from "../EditPage/EditPg";
-import EditCfmPg from "../EditCfmPage/EditCfmPg";
+import NewCfmPg from "../NewCfmPage/NewCfmPage";
+import EditPg from "../EditPage/EditPage";
+import EditCfmPg from "../EditCfmPage/EditCfmPage";
 
 const MainPage = () => {
   // ALLOWS REDUX STORE TO BE ACCESSED
