@@ -48,7 +48,7 @@ const MainPage = () => {
   return (
     <div className={styles.mainPageContainer}>
       <div className={styles.dashboard}>
-        <header>MAIN PAGE</header>
+        <header>DASHBOARD</header>
         {/* PARTS THAT CHANGE WITH THE PAGES, ANYTHING U WANNA KEEP STATIC PUT OUTSIDE */}
         <div>
           <Routes>
