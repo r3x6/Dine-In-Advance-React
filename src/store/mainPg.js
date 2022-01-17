@@ -26,6 +26,7 @@ const mainPgSlice = createSlice({
       state.group = action.payload.group;
       state.date = action.payload.date;
       state.time = action.payload.time;
+      console.log(action.payload);
     },
   },
 });

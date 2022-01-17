@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Main.module.css";
 
 import { mainPgActions } from "../../store/mainPg";
@@ -11,6 +11,7 @@ import { mainPgActions } from "../../store/mainPg";
 const Main = () => {
   // ALLOWS REDUX STORE TO BE ACCESSED
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // CALL STATES TO BE USED FROM STORE
   // const storeStateName = useSelector((state) => state.mainPg.stateName);
@@ -18,7 +19,7 @@ const Main = () => {
   // OTHER REDUCERS HERE, WITH USEEFFECT TO SPECIFY TRIGGER IF NECESSARY
   const handleNewBooking = (e) => {
     e.preventDefault();
-    console.log(e.target.name.value);
+
     const name = e.target.name.value;
     const phone = e.target.phone.value;
     const email = e.target.email.value;
@@ -35,8 +36,9 @@ const Main = () => {
       date,
       time,
     };
-
+    console.log(data);
     dispatch(mainPgActions.saveNewBooking(data));
+    navigate("/confirmation");
   };
 
   // PAGE HTML TEMPLATE WITH COMPONENTS WHERE NECESSARY (STATIC PARTS ARE AS DEFINED IN MAINPAGE)
@@ -75,7 +77,7 @@ const Main = () => {
               </td>
               <td>
                 <select name="restaurant" id="restaurant">
-                  <option value="changChin">Chang & Chin</option>
+                  <option value="changChin">Chang {"&"} Chin</option>
                 </select>
               </td>
             </tr>
@@ -126,9 +128,9 @@ const Main = () => {
             </tr>
           </tbody>
         </table>
-        <NavLink to="/confirmation">
-          <button typeof="submit">Submit</button>
-        </NavLink>
+        {/* <NavLink to="/confirmation"> */}
+        <button type="submit">Submit</button>
+        {/* </NavLink> */}
       </form>
       {/* ADD NAVLINK TO GO TO OTHER PAGES AS PER REQUIRED (CLASS NAME IS FOR ACTIVESTYLES) */}
       {/* <NavLink
