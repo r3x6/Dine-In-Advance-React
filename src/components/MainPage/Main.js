@@ -36,7 +36,6 @@ const Main = () => {
       date,
       time,
     };
-    console.log(data);
     dispatch(mainPgActions.saveNewBooking(data));
     navigate("/confirmation");
   };

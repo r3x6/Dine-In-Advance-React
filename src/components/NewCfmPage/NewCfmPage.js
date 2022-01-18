@@ -26,16 +26,17 @@ const NewCfmPage = (props) => {
 
   const handleSaveNewBooking = () => {
     // CALL BACKEND API HERE
-    //
-    // const apiAction = async (para) => {
-    //   const res = await fetch(
-    //     `https://apiURL/${para}`,
-    //     { method: "HTML VERB"}
-    //   );
-    //   const data = await res.json();
-    //   return data;
-    // };
-    //
+
+    const saveBooking = async () => {
+      await fetch(`http://127.0.0.1/api/booking`, {
+        method: "POST",
+        body: { restaurantName: storeRestaurant },
+        mode: "no-cors",
+      });
+      console.log("booking saved");
+    };
+    saveBooking();
+
     // IF NECESSARY, THROW IN REDUCER HERE TO HANDLE FETCHED DATA (THIS IS FOR ONLOAD)
     // const handleData = async () => {
     //   const receivedData = await apiAction("someParameter");
