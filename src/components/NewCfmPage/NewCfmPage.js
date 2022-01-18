@@ -77,7 +77,7 @@ const NewCfmPage = (props) => {
           </tr>
           <tr>
             <td>Time:</td>
-            <td>{storeTime}</td>
+            <td>{storeTime}:00</td>
           </tr>
         </tbody>
       </table>
