@@ -27,6 +27,7 @@ const Main = () => {
         const group = e.target.group.value;
         const date = e.target.date.value;
         const time = e.target.time.value;
+        const req = e.target.req.value;
         const data = {
             name,
             phone,
@@ -35,6 +36,7 @@ const Main = () => {
             group,
             date,
             time,
+            req,
         };
         dispatch(mainPgActions.saveNewBooking(data));
         navigate("/confirmation");
@@ -76,8 +78,11 @@ const Main = () => {
                             </td>
                             <td>
                                 <select name="restaurant" id="restaurant">
-                                    <option value="changChin">
+                                    <option value="Chang & Chin">
                                         Chang {"&"} Chin
+                                    </option>
+                                    <option value="Burnt Ends">
+                                        Burnt Ends
                                     </option>
                                 </select>
                             </td>
@@ -125,6 +130,14 @@ const Main = () => {
                                     <option value="21">21:00</option>
                                     <option value="22">22:00</option>
                                 </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="req">Special Requests: </label>
+                            </td>
+                            <td>
+                                <input name="req" id="req" />
                             </td>
                         </tr>
                     </tbody>

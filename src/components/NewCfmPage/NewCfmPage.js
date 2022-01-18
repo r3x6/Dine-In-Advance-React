@@ -8,7 +8,7 @@ import { mainPgActions } from "../../store/mainPg";
 // IMPORT NECESSARY COMPONENTS HERE
 // import Component from "./fileName";
 
-const NewCfmPage = (props) => {
+const NewCfmPage = () => {
     // ALLOWS REDUX STORE TO BE ACCESSED
     const dispatch = useDispatch();
 
@@ -21,6 +21,7 @@ const NewCfmPage = (props) => {
     const storeGroup = useSelector((state) => state.mainPg.group);
     const storeDate = useSelector((state) => state.mainPg.date);
     const storeTime = useSelector((state) => state.mainPg.time);
+    const storeReq = useSelector((state) => state.mainPg.req);
 
     // OTHER REDUCERS HERE, WITH USEEFFECT TO SPECIFY TRIGGER IF NECESSARY
 
@@ -28,21 +29,17 @@ const NewCfmPage = (props) => {
         // CALL BACKEND API HERE
         e.preventDefault();
 
-        const seedRestaurants = {
-            restaurantName: "Chang & Chin",
-            newBooking: {
-                tableNumber: 1,
-                customerInfo: {
-                    name: "Elon Musk",
-                    email: "elon@tesla.com",
-                    contactNo: "510 555 1111",
-                },
-                groupSize: 2,
-                specialRequests: "",
-                date: 1644508800,
-                hoursBooked: [16],
-                deletedFlag: false,
+        const newBooking = {
+            customerInfo: {
+                name: storeName,
+                email: storeEmail,
+                contactNo: storePhone,
             },
+            groupSize: storeGroup,
+            specialRequests: storeReq,
+            date: new Date(storeDate).getTime(), //unix time (seconds) with date. other parts are ignored. Interpreted in SG time zone
+            hoursBooked: [storeTime],
+            restaurantName: storeRestaurant,
         };
 
         fetch("http://localhost:5000/api/booking", {
@@ -50,9 +47,8 @@ const NewCfmPage = (props) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(seedRestaurants),
+            body: JSON.stringify(newBooking),
         });
-        console.log(JSON.stringify(seedRestaurants));
         // IF NECESSARY, THROW IN REDUCER HERE TO HANDLE FETCHED DATA (THIS IS FOR ONLOAD)
         // const handleData = async () => {
         //   const receivedData = await apiAction("someParameter");
@@ -95,6 +91,10 @@ const NewCfmPage = (props) => {
                     <tr>
                         <td>Time:</td>
                         <td>{storeTime}:00</td>
+                    </tr>
+                    <tr>
+                        <td>Special Requests:</td>
+                        <td>{storeReq}</td>
                     </tr>
                 </tbody>
             </table>
