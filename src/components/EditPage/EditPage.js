@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 
 import { editPgActions } from "../../store/editPg";
 
@@ -8,6 +8,8 @@ import { editPgActions } from "../../store/editPg";
 // import Component from "./fileName";
 
 const EditPage = () => {
+    const routerParams = useParams();
+
     // ALLOWS REDUX STORE TO BE ACCESSED
     const dispatch = useDispatch();
 
@@ -20,11 +22,28 @@ const EditPage = () => {
     //    - is there a way to reuse the form? Maybe the reservation form can be a reuseable Component
 
     // Functions needed:
-    // - when reservation number is submitted, call the GET Booking and load the data
+    // - on page load, call the GET Booking and load the data
     // - on submit edit, it will call the PATCH Booking endpoint
     // - delete booking
 
     // OTHER REDUCERS HERE, WITH USEEFFECT TO SPECIFY TRIGGER IF NECESSARY
+
+    // get data on page load
+    useEffect(() => {
+        console.log(`Fetching data for bookingId: ${routerParams.bookingId}`);
+
+        // MICHAEL LEFT OFF HERE
+        async function fetchBooking() {
+            const response = await fetch(
+                `https://dine-in-advance-server.herokuapp.com/api/booking?id=${routerParams.bookingId}`
+            );
+            const myJson = await response.json();
+            // do something with the data, like assign it to a State or Reducer
+            console.log("response:", myJson);
+        }
+
+        fetchBooking();
+    }, []);
 
     // PAGE HTML TEMPLATE WITH COMPONENTS WHERE NECESSARY (STATIC PARTS ARE AS DEFINED IN MAINPAGE)
     return (
