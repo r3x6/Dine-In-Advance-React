@@ -14,6 +14,8 @@ const EditPage = () => {
     const routerParams = useParams();
 
     const [bookingDetails, setBookingDetails] = useState();
+
+    // this state is a placeholder. It holds the booking data as a JSON string. It is a controlled input.
     const [textAreaValue, setTextAreaValue] = useState();
 
     // ALLOWS REDUX STORE TO BE ACCESSED
@@ -21,13 +23,6 @@ const EditPage = () => {
 
     // CALL STATES TO BE USED FROM STORE
     // const storeStateName = useSelector((state) => state.mainPg.stateName);
-
-    // States needed for EDIT page:
-    // - reservation number (controlled HTML input)
-    // - all the data about reservation (controlled HTML inputs. Use the "New" as a template. Use "readonly" for the fields that impact reservation availability)
-    //    - is there a way to reuse the form? Maybe the reservation form can be a reuseable Component
-
-    // Functions needed:
 
     // OTHER REDUCERS HERE, WITH USEEFFECT TO SPECIFY TRIGGER IF NECESSARY
 
@@ -74,6 +69,7 @@ const EditPage = () => {
     return (
         <div>
             <h3>Edit Booking</h3>
+            {/* TO DO: create an actual form. Use the "New" as a template. Use "readonly" for the fields that impact reservation availability) */}
             <textarea
                 rows="15"
                 cols="50"
