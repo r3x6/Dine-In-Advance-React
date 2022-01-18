@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, NavLink } from "react-router-dom";
+import BookingForm from "./BookingForm";
 
 import { editPgActions } from "../../store/editPg";
+
+//import styles from "./EditPage.module.css";
 
 const SERVER_URI = "https://dine-in-advance-server.herokuapp.com";
 //const SERVER_URI = "localhost:5000";
@@ -99,6 +102,7 @@ const EditPage = () => {
                     setTextAreaValue(e.target.value);
                 }}
             />
+            <BookingForm />
             <div>
                 <button onClick={handleEditClick}>Save Changes</button>
                 <button onClick={handleDeleteClick}>Delete</button>
