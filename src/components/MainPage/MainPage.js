@@ -48,6 +48,7 @@ const MainPage = () => {
   return (
     <div className={styles.mainPageContainer}>
       <div className={styles.dashboard}>
+        <div className={styles.sidebar}></div>
         <header>DASHBOARD</header>
         {/* PARTS THAT CHANGE WITH THE PAGES, ANYTHING U WANNA KEEP STATIC PUT OUTSIDE */}
         <div>
