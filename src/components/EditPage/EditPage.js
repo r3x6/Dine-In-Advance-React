@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, NavLink } from "react-router-dom";
+import BookingForm from "./BookingForm";
 
 import { editPgActions } from "../../store/editPg";
+
+//import styles from "./EditPage.module.css";
 
 const SERVER_URI = "https://dine-in-advance-server.herokuapp.com";
 //const SERVER_URI = "localhost:5000";
@@ -64,11 +67,32 @@ const EditPage = () => {
     }
 
     // delete booking
+    function handleDeleteClick(e) {
+        async function deleteBooking() {
+            const response = await fetch(
+                `${SERVER_URI}/api/booking?id=${routerParams.bookingId}`,
+                { method: "DELETE" }
+            );
+            //const myJson = await response.json();
+            // do something with DELETE response
+            //console.log(myJson);
+            window.location.reload();
+        }
+
+        if (
+            window.confirm("Delete reservation? This action cannot be undone.")
+        ) {
+            deleteBooking();
+        }
+    }
 
     // PAGE HTML TEMPLATE WITH COMPONENTS WHERE NECESSARY (STATIC PARTS ARE AS DEFINED IN MAINPAGE)
     return (
         <div>
             <h3>Edit Booking</h3>
+            {bookingDetails?.deletedFlag && (
+                <p style={{ color: "red" }}>This booking has been deleted</p>
+            )}
             {/* TO DO: create an actual form. Use the "New" as a template. Use "readonly" for the fields that impact reservation availability) */}
             <textarea
                 rows="15"
@@ -78,9 +102,10 @@ const EditPage = () => {
                     setTextAreaValue(e.target.value);
                 }}
             />
+            <BookingForm />
             <div>
                 <button onClick={handleEditClick}>Save Changes</button>
-                <button>Delete</button>
+                <button onClick={handleDeleteClick}>Delete</button>
             </div>
 
             {/* ADD NAVLINK TO GO TO OTHER PAGES AS PER REQUIRED (CLASS NAME IS FOR ACTIVESTYLES) */}
