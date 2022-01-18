@@ -53,7 +53,7 @@ const MainPage = () => {
                 {/* PARTS THAT CHANGE WITH THE PAGES, ANYTHING U WANNA KEEP STATIC PUT OUTSIDE */}
                 <div className={styles.rightSide}>
                     <div className={styles.topbar}>
-                        <header>DASHBOARD</header>
+                        <header>Dine IN Advance</header>
                     </div>
                     <div className={styles.mainSection}>
                         <Routes>
