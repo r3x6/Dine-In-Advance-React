@@ -12,7 +12,7 @@ const editPgSlice = createSlice({
             },
             groupSize: null,
             specialRequests: "",
-            date: null, //unix time (seconds) with date. other parts are ignored. Interpreted in SG time zone
+            date: "",
             hoursBooked: [null],
             restaurantName: "",
             tableNumber: null,

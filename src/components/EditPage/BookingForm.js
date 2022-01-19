@@ -2,12 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import styles from "./BookingForm.module.css";
 
-// input is in seconds since 1970
-function unixTimestampToISODate(unixTimestamp) {
-    const bookingDate = new Date(unixTimestamp * 1000);
-    return bookingDate.toISOString().slice(0, 10);
-}
-
 const BookingForm = (props) => {
     const [formData, setFormData] = useState(props.initialData);
 
@@ -129,15 +123,11 @@ const BookingForm = (props) => {
                                 name="date"
                                 id="date"
                                 type="date"
-                                value={unixTimestampToISODate(formData?.date)}
+                                value={formData?.date}
                                 onChange={(e) => {
-                                    const timeAsUnixSeconds = new Date(
-                                        e.target.value
-                                    );
-
                                     setFormData({
                                         ...formData,
-                                        date: timeAsUnixSeconds,
+                                        date: e.target.value,
                                     });
                                 }}
                             />
