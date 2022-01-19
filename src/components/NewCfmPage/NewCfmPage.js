@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import styles from "./NewCfmPage.module.css";
 
-import { mainPgActions } from "../../store/mainPg";
+import { newCfmActions } from "../../store/newCfm";
 
 // IMPORT NECESSARY COMPONENTS HERE
 // import Component from "./fileName";
@@ -22,10 +22,11 @@ const NewCfmPage = () => {
     const storeDate = useSelector((state) => state.mainPg.date);
     const storeTime = useSelector((state) => state.mainPg.time);
     const storeReq = useSelector((state) => state.mainPg.req);
+    const storeBookingId = useSelector((state) => state.newCfm.bookingId);
 
     // OTHER REDUCERS HERE, WITH USEEFFECT TO SPECIFY TRIGGER IF NECESSARY
 
-    const handleSaveNewBooking = (e) => {
+    const handleSaveNewBooking = async (e) => {
         // CALL BACKEND API HERE
         e.preventDefault();
 
@@ -42,19 +43,24 @@ const NewCfmPage = () => {
             restaurantName: storeRestaurant,
         };
 
-        fetch("http://localhost:5000/api/booking", {
+        const res = await fetch("http://localhost:5000/api/booking", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(newBooking),
         });
+
+        const data = await res.json();
+
         // IF NECESSARY, THROW IN REDUCER HERE TO HANDLE FETCHED DATA (THIS IS FOR ONLOAD)
         // const handleData = async () => {
         //   const receivedData = await apiAction("someParameter");
         //   dispatch(mainPgActions.reducerName(receivedData));
         // };
         // handleData();
+
+        dispatch(newCfmActions.setBookingId(data._id));
         //
         // REMOVES DEPENDENCY WARNING (DO NOT REMOVE THE COMMENT FOR NEXT LINE)
     };
@@ -100,6 +106,16 @@ const NewCfmPage = () => {
             </table>
 
             <button onClick={handleSaveNewBooking}>Confirm Booking</button>
+
+            {storeBookingId && (
+                <>
+                    <br />
+                    <br />
+                    <p>Booking made successfully!</p>
+                    <p>Your booking id is:</p>
+                    <h2>{storeBookingId}</h2>
+                </>
+            )}
 
             {/* ADD NAVLINK TO GO TO OTHER PAGES AS PER REQUIRED (CLASS NAME IS FOR ACTIVESTYLES) */}
             {/* <NavLink
