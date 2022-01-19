@@ -18,6 +18,10 @@ const BookingForm = (props) => {
             <table>
                 <tbody>
                     <tr>
+                        <td>Booking number:</td>
+                        <td>{props.bookingId}</td>
+                    </tr>
+                    <tr>
                         <td>
                             <label htmlFor="name">Name: </label>
                         </td>
@@ -85,7 +89,8 @@ const BookingForm = (props) => {
                             <label htmlFor="restaurant">Restaurant: </label>
                         </td>
                         <td>
-                            <input
+                            {formData?.restaurantName}
+                            {/* <input
                                 name="restaurant"
                                 id="restaurant"
                                 value={formData?.restaurantName}
@@ -97,7 +102,7 @@ const BookingForm = (props) => {
                                 }}
                                 readOnly
                                 className={styles.readonly}
-                            />
+                            /> */}
                         </td>
                     </tr>
                     <tr>
@@ -175,6 +180,10 @@ const BookingForm = (props) => {
                                 <option value="22">22:00</option>
                             </select>
                         </td>
+                    </tr>
+                    <tr>
+                        <td>Table number:</td>
+                        <td>{formData?.tableNumber}</td>
                     </tr>
                     <tr>
                         <td>

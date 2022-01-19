@@ -110,6 +110,7 @@ const EditPage = () => {
             <BookingForm
                 initialData={bookingToEdit}
                 onSubmit={handleFormSubmit}
+                bookingId={routerParams.bookingId}
             />
             <div>
                 {/* <button onClick={handleEditClick}>Save Changes</button> */}
