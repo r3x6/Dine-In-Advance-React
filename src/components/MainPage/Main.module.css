@@ -1,3 +1,12 @@
 .mainDiv {
-  margin: 8% 0 0 15%;
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+.leftSide {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+.rightSide {
+    grid-column-start: 2;
+    grid-column-end: 3;
 }

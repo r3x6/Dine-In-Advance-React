@@ -1,28 +1,70 @@
 .mainPageContainer {
-  float: none;
-  min-height: 100%;
-  min-width: 1024px;
-  width: 100%;
-  height: auto;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: url("../../images/restautantBackground.jpg") no-repeat center
-    center fixed;
-  background-size: cover;
+    float: none;
+    min-height: 100%;
+    min-width: 1024px;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: url("../../images/restautantBackground.jpg") no-repeat center
+        center fixed;
+    background-size: cover;
 }
 
 .dashboard {
-  color: #eeeeee;
-  float: none;
-  min-height: 70%;
-  width: 80%;
-  height: auto;
-  position: fixed;
-  top: 15%;
-  left: 10%;
-  background-color: #121212;
-  border-radius: 15px;
-  box-shadow: 0.5px 0.5px 15px 3px;
-  padding: 1%;
+    color: #eeeeee;
+    float: none;
+    min-height: 70%;
+    width: 70%;
+    height: auto;
+    position: fixed;
+    top: 15%;
+    left: 15%;
+    background-color: #121212;
+    border-radius: 10px;
+    box-shadow: 0.5px 0.5px 15px 3px;
+}
+
+.sidebar {
+    float: none;
+    min-height: inherit;
+    width: 5%;
+    height: auto;
+    position: fixed;
+    background-color: #121212;
+    box-shadow: 2px 0px 5px 1px;
+    border-radius: 10px 0 0 10px;
+}
+
+.rightSide {
+    float: none;
+    min-height: inherit;
+    width: 64%;
+    height: auto;
+    position: fixed;
+    left: 21%;
+    background-color: #121212;
+    border-radius: 0 10px 10px 0;
+}
+
+.topbar {
+    float: none;
+    min-width: inherit;
+    height: 5%;
+    width: auto;
+    background-color: #121212;
+    border-radius: 0 10px 0 0;
+    padding: 1%;
+}
+
+.mainSection {
+    float: none;
+    min-width: inherit;
+    height: 65%;
+    width: auto;
+    top: 21%;
+    background-color: #121212;
+    border-radius: 0 0 10px 0;
+    padding: 1%;
 }

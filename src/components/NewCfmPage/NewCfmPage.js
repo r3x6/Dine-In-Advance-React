@@ -8,91 +8,108 @@ import { mainPgActions } from "../../store/mainPg";
 // IMPORT NECESSARY COMPONENTS HERE
 // import Component from "./fileName";
 
-const NewCfmPage = (props) => {
-  // ALLOWS REDUX STORE TO BE ACCESSED
-  const dispatch = useDispatch();
+const NewCfmPage = () => {
+    // ALLOWS REDUX STORE TO BE ACCESSED
+    const dispatch = useDispatch();
 
-  // CALL STATES TO BE USED FROM STORE
-  // const storeStateName = useSelector((state) => state.mainPg.stateName);
-  const storeName = useSelector((state) => state.mainPg.name);
-  const storePhone = useSelector((state) => state.mainPg.phone);
-  const storeEmail = useSelector((state) => state.mainPg.email);
-  const storeRestaurant = useSelector((state) => state.mainPg.restaurant);
-  const storeGroup = useSelector((state) => state.mainPg.group);
-  const storeDate = useSelector((state) => state.mainPg.date);
-  const storeTime = useSelector((state) => state.mainPg.time);
+    // CALL STATES TO BE USED FROM STORE
+    // const storeStateName = useSelector((state) => state.mainPg.stateName);
+    const storeName = useSelector((state) => state.mainPg.name);
+    const storePhone = useSelector((state) => state.mainPg.phone);
+    const storeEmail = useSelector((state) => state.mainPg.email);
+    const storeRestaurant = useSelector((state) => state.mainPg.restaurant);
+    const storeGroup = useSelector((state) => state.mainPg.group);
+    const storeDate = useSelector((state) => state.mainPg.date);
+    const storeTime = useSelector((state) => state.mainPg.time);
+    const storeReq = useSelector((state) => state.mainPg.req);
 
-  // OTHER REDUCERS HERE, WITH USEEFFECT TO SPECIFY TRIGGER IF NECESSARY
+    // OTHER REDUCERS HERE, WITH USEEFFECT TO SPECIFY TRIGGER IF NECESSARY
 
-  const handleSaveNewBooking = () => {
-    // CALL BACKEND API HERE
-    //
-    // const apiAction = async (para) => {
-    //   const res = await fetch(
-    //     `https://apiURL/${para}`,
-    //     { method: "HTML VERB"}
-    //   );
-    //   const data = await res.json();
-    //   return data;
-    // };
-    //
-    // IF NECESSARY, THROW IN REDUCER HERE TO HANDLE FETCHED DATA (THIS IS FOR ONLOAD)
-    // const handleData = async () => {
-    //   const receivedData = await apiAction("someParameter");
-    //   dispatch(mainPgActions.reducerName(receivedData));
-    // };
-    // handleData();
-    //
-    // REMOVES DEPENDENCY WARNING (DO NOT REMOVE THE COMMENT FOR NEXT LINE)
-  };
+    const handleSaveNewBooking = (e) => {
+        // CALL BACKEND API HERE
+        e.preventDefault();
 
-  // PAGE HTML TEMPLATE WITH COMPONENTS WHERE NECESSARY (STATIC PARTS ARE AS DEFINED IN MAINPAGE)
-  return (
-    <div className={styles.mainDiv}>
-      <table>
-        <tbody>
-          <tr>
-            <td>Name:</td>
-            <td>{storeName}</td>
-          </tr>
-          <tr>
-            <td>Contact No. :</td>
-            <td>{storePhone}</td>
-          </tr>
-          <tr>
-            <td>Email:</td>
-            <td>{storeEmail}</td>
-          </tr>
-          <tr>
-            <td>Restaurant:</td>
-            <td>{storeRestaurant}</td>
-          </tr>
-          <tr>
-            <td>Group Size:</td>
-            <td>{storeGroup}</td>
-          </tr>
-          <tr>
-            <td>Date:</td>
-            <td>{storeDate}</td>
-          </tr>
-          <tr>
-            <td>Time:</td>
-            <td>{storeTime}</td>
-          </tr>
-        </tbody>
-      </table>
+        const newBooking = {
+            customerInfo: {
+                name: storeName,
+                email: storeEmail,
+                contactNo: storePhone,
+            },
+            groupSize: storeGroup,
+            specialRequests: storeReq,
+            date: new Date(storeDate).getTime(), //unix time (seconds) with date. other parts are ignored. Interpreted in SG time zone
+            hoursBooked: [storeTime],
+            restaurantName: storeRestaurant,
+        };
 
-      <button onClick={handleSaveNewBooking}>Confirm Booking</button>
+        fetch("http://localhost:5000/api/booking", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newBooking),
+        });
+        // IF NECESSARY, THROW IN REDUCER HERE TO HANDLE FETCHED DATA (THIS IS FOR ONLOAD)
+        // const handleData = async () => {
+        //   const receivedData = await apiAction("someParameter");
+        //   dispatch(mainPgActions.reducerName(receivedData));
+        // };
+        // handleData();
+        //
+        // REMOVES DEPENDENCY WARNING (DO NOT REMOVE THE COMMENT FOR NEXT LINE)
+    };
 
-      {/* ADD NAVLINK TO GO TO OTHER PAGES AS PER REQUIRED (CLASS NAME IS FOR ACTIVESTYLES) */}
-      {/* <NavLink
+    // PAGE HTML TEMPLATE WITH COMPONENTS WHERE NECESSARY (STATIC PARTS ARE AS DEFINED IN MAINPAGE)
+    return (
+        <div className={styles.mainDiv}>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Name:</td>
+                        <td>{storeName}</td>
+                    </tr>
+                    <tr>
+                        <td>Contact No. :</td>
+                        <td>{storePhone}</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>{storeEmail}</td>
+                    </tr>
+                    <tr>
+                        <td>Restaurant:</td>
+                        <td>{storeRestaurant}</td>
+                    </tr>
+                    <tr>
+                        <td>Group Size:</td>
+                        <td>{storeGroup}</td>
+                    </tr>
+                    <tr>
+                        <td>Date:</td>
+                        <td>{storeDate}</td>
+                    </tr>
+                    <tr>
+                        <td>Time:</td>
+                        <td>{storeTime}:00</td>
+                    </tr>
+                    <tr>
+                        <td>Special Requests:</td>
+                        <td>{storeReq}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button onClick={handleSaveNewBooking}>Confirm Booking</button>
+
+            {/* ADD NAVLINK TO GO TO OTHER PAGES AS PER REQUIRED (CLASS NAME IS FOR ACTIVESTYLES) */}
+            {/* <NavLink
       className={(navData) => (navData.isActive ? styles.active : "")}
       to="/TARGETURL"
     >
       LINK TEXT
     </NavLink> */}
-    </div>
-  );
+        </div>
+    );
 };
 export default NewCfmPage;
 
