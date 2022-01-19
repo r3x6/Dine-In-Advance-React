@@ -27,6 +27,7 @@ const BookingForm = (props) => {
                         </td>
                         <td>
                             <input
+                                disabled={props.initialData?.deletedFlag}
                                 name="name"
                                 id="name"
                                 value={formData?.customerInfo?.name}
@@ -48,6 +49,7 @@ const BookingForm = (props) => {
                         </td>
                         <td>
                             <input
+                                disabled={props.initialData?.deletedFlag}
                                 name="phone"
                                 id="phone"
                                 value={formData?.customerInfo?.contactNo}
@@ -69,6 +71,7 @@ const BookingForm = (props) => {
                         </td>
                         <td>
                             <input
+                                disabled={props.initialData?.deletedFlag}
                                 name="email"
                                 id="email"
                                 value={formData?.customerInfo?.email}
@@ -96,6 +99,7 @@ const BookingForm = (props) => {
                         </td>
                         <td>
                             <select
+                                disabled
                                 name="group"
                                 id="group"
                                 value={formData?.groupSize}
@@ -120,6 +124,7 @@ const BookingForm = (props) => {
                         </td>
                         <td>
                             <input
+                                disabled
                                 name="date"
                                 id="date"
                                 type="date"
@@ -139,6 +144,7 @@ const BookingForm = (props) => {
                         </td>
                         <td>
                             <select
+                                disabled
                                 name="time"
                                 id="time"
                                 value={formData?.hoursBooked?.[0]?.toString()}
@@ -179,6 +185,7 @@ const BookingForm = (props) => {
                         </td>
                         <td>
                             <input
+                                disabled={props.initialData?.deletedFlag}
                                 name="specialRequests"
                                 id="specialRequests"
                                 value={formData?.specialRequests}
@@ -193,9 +200,9 @@ const BookingForm = (props) => {
                     </tr>
                 </tbody>
             </table>
-            {/* <NavLink to="/confirmation"> */}
-            <button type="submit">Save Changes</button>
-            {/* </NavLink> */}
+            {props.initialData?.deletedFlag || (
+                <button type="submit">Save Changes</button>
+            )}
         </form>
     );
 };

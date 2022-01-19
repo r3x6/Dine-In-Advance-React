@@ -104,8 +104,15 @@ const EditPage = () => {
     return (
         <div>
             <h3>Edit Booking</h3>
+            <p>
+                You may use this page to edit your contact info or special
+                requests. To edit the date, time, or group size, please delete
+                this booking and create a new one.
+            </p>
             {bookingToEdit?.deletedFlag && (
-                <p style={{ color: "red" }}>This booking has been deleted</p>
+                <p style={{ color: "red", fontWeight: "bold" }}>
+                    This booking has been deleted
+                </p>
             )}
             <BookingForm
                 initialData={bookingToEdit}
@@ -113,8 +120,9 @@ const EditPage = () => {
                 bookingId={routerParams.bookingId}
             />
             <div>
-                {/* <button onClick={handleEditClick}>Save Changes</button> */}
-                <button onClick={handleDeleteClick}>Delete</button>
+                {bookingToEdit?.deletedFlag || (
+                    <button onClick={handleDeleteClick}>Delete</button>
+                )}
             </div>
 
             {/* ADD NAVLINK TO GO TO OTHER PAGES AS PER REQUIRED (CLASS NAME IS FOR ACTIVESTYLES) */}

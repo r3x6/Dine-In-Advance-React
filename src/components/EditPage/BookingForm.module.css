@@ -1,3 +1,8 @@
 .readonly {
     background-color: lightgrey;
 }
+
+input:disabled,
+select:disabled {
+    background-color: lightgrey;
+}
