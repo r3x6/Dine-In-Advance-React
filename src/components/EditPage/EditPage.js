@@ -18,9 +18,6 @@ const EditPage = () => {
 
     const [bookingDetails, setBookingDetails] = useState();
 
-    // this state is a placeholder. It holds the booking data as a JSON string. It is a controlled input.
-    const [textAreaValue, setTextAreaValue] = useState();
-
     // ALLOWS REDUX STORE TO BE ACCESSED
     const dispatch = useDispatch();
 
@@ -39,7 +36,6 @@ const EditPage = () => {
             );
             const myJson = await response.json();
             setBookingDetails(myJson);
-            setTextAreaValue(JSON.stringify(myJson));
         }
 
         fetchBooking();
@@ -68,7 +64,6 @@ const EditPage = () => {
         }
 
         try {
-            //const obj = JSON.parse(textAreaValue);
             console.log("submitting form");
             console.log("data is: ", JSON.stringify(bookingData));
             patchBooking();
@@ -108,15 +103,6 @@ const EditPage = () => {
             {bookingDetails?.deletedFlag && (
                 <p style={{ color: "red" }}>This booking has been deleted</p>
             )}
-            {/* TO DO: create an actual form. Use the "New" as a template. Use "readonly" for the fields that impact reservation availability) */}
-            <textarea
-                rows="15"
-                cols="50"
-                value={textAreaValue}
-                onChange={(e) => {
-                    setTextAreaValue(e.target.value);
-                }}
-            />
             <BookingForm
                 initialData={bookingDetails}
                 onSubmit={handleFormSubmit}
