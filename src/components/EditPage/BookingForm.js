@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./BookingForm.module.css";
 
-function handleSubmit() {}
-
 const BookingForm = (props) => {
-    const [bookingData, setBookingData] = useState();
+    const [formData, setFormData] = useState(props.initialData);
+
+    useEffect(() => {
+        setFormData(props.initialData);
+    }, [props]);
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form
+            onSubmit={(e) => {
+                props.onSubmit(e, formData);
+            }}
+        >
             <table>
                 <tbody>
                     <tr>
@@ -16,7 +22,20 @@ const BookingForm = (props) => {
                             <label htmlFor="name">Name: </label>
                         </td>
                         <td>
-                            <input name="name" id="name" />
+                            <input
+                                name="name"
+                                id="name"
+                                value={formData?.customerInfo?.name}
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        customerInfo: {
+                                            ...formData.customerInfo,
+                                            name: e.target.value,
+                                        },
+                                    });
+                                }}
+                            />
                         </td>
                     </tr>
                     <tr>
@@ -24,7 +43,20 @@ const BookingForm = (props) => {
                             <label htmlFor="phone">Contact No. : </label>
                         </td>
                         <td>
-                            <input name="phone" id="phone" />
+                            <input
+                                name="phone"
+                                id="phone"
+                                value={formData?.customerInfo?.contactNo}
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        customerInfo: {
+                                            ...formData.customerInfo,
+                                            contactNo: e.target.value,
+                                        },
+                                    });
+                                }}
+                            />
                         </td>
                     </tr>
                     <tr>
@@ -32,7 +64,20 @@ const BookingForm = (props) => {
                             <label htmlFor="email">Email: </label>
                         </td>
                         <td>
-                            <input name="email" id="email" />
+                            <input
+                                name="email"
+                                id="email"
+                                value={formData?.customerInfo?.email}
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        customerInfo: {
+                                            ...formData.customerInfo,
+                                            email: e.target.value,
+                                        },
+                                    });
+                                }}
+                            />
                         </td>
                     </tr>
                     <tr>
@@ -43,9 +88,15 @@ const BookingForm = (props) => {
                             <input
                                 name="restaurant"
                                 id="restaurant"
-                                value="Chang & Chin"
-                                readonly
-                                class={styles.readonly}
+                                value={formData?.restaurantName}
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        restaurantName: e.target.value,
+                                    });
+                                }}
+                                readOnly
+                                className={styles.readonly}
                             />
                         </td>
                     </tr>
@@ -54,7 +105,17 @@ const BookingForm = (props) => {
                             <label htmlFor="group">Group Size: </label>
                         </td>
                         <td>
-                            <select name="group" id="group">
+                            <select
+                                name="group"
+                                id="group"
+                                value={formData?.customerInfo?.groupSize}
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        groupSize: e.target.value,
+                                    });
+                                }}
+                            >
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -68,7 +129,18 @@ const BookingForm = (props) => {
                             <label htmlFor="date">Date: </label>
                         </td>
                         <td>
-                            <input name="date" id="date" type="date" />
+                            <input
+                                name="date"
+                                id="date"
+                                type="date"
+                                value={formData?.customerInfo?.date}
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        date: e.target.value,
+                                    });
+                                }}
+                            />
                         </td>
                     </tr>
                     <tr>
@@ -76,7 +148,17 @@ const BookingForm = (props) => {
                             <label htmlFor="time">Time: </label>
                         </td>
                         <td>
-                            <select name="time" id="time">
+                            <select
+                                name="time"
+                                id="time"
+                                value={formData?.customerInfo?.hoursBooked}
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        hoursBooked: e.target.value,
+                                    });
+                                }}
+                            >
                                 <option value="9">9:00</option>
                                 <option value="10">10:00</option>
                                 <option value="11">11:00</option>
@@ -94,10 +176,30 @@ const BookingForm = (props) => {
                             </select>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <label htmlFor="specialRequests">
+                                Special Requests:
+                            </label>
+                        </td>
+                        <td>
+                            <input
+                                name="specialRequests"
+                                id="specialRequests"
+                                value={formData?.specialRequests}
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        specialRequests: e.target.value,
+                                    });
+                                }}
+                            />
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             {/* <NavLink to="/confirmation"> */}
-            <button type="submit">Submit</button>
+            <button type="submit">Save Changes</button>
             {/* </NavLink> */}
         </form>
     );
