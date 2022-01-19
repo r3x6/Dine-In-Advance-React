@@ -37,7 +37,7 @@ const NewCfmPage = () => {
             },
             groupSize: storeGroup,
             specialRequests: storeReq,
-            date: new Date(storeDate).getTime(), //unix time (seconds) with date. other parts are ignored. Interpreted in SG time zone
+            date: storeDate,
             hoursBooked: [storeTime],
             restaurantName: storeRestaurant,
         };

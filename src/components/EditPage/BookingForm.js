@@ -2,6 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import styles from "./BookingForm.module.css";
 
+// input is in seconds since 1970
+function unixTimestampToISODate(unixTimestamp) {
+    const bookingDate = new Date(unixTimestamp * 1000);
+    return bookingDate.toISOString().slice(0, 10);
+}
+
 const BookingForm = (props) => {
     const [formData, setFormData] = useState(props.initialData);
 
@@ -88,22 +94,7 @@ const BookingForm = (props) => {
                         <td>
                             <label htmlFor="restaurant">Restaurant: </label>
                         </td>
-                        <td>
-                            {formData?.restaurantName}
-                            {/* <input
-                                name="restaurant"
-                                id="restaurant"
-                                value={formData?.restaurantName}
-                                onChange={(e) => {
-                                    setFormData({
-                                        ...formData,
-                                        restaurantName: e.target.value,
-                                    });
-                                }}
-                                readOnly
-                                className={styles.readonly}
-                            /> */}
-                        </td>
+                        <td>{formData?.restaurantName}</td>
                     </tr>
                     <tr>
                         <td>
@@ -113,7 +104,7 @@ const BookingForm = (props) => {
                             <select
                                 name="group"
                                 id="group"
-                                value={formData?.customerInfo?.groupSize}
+                                value={formData?.groupSize}
                                 onChange={(e) => {
                                     setFormData({
                                         ...formData,
@@ -138,11 +129,15 @@ const BookingForm = (props) => {
                                 name="date"
                                 id="date"
                                 type="date"
-                                value={formData?.customerInfo?.date}
+                                value={unixTimestampToISODate(formData?.date)}
                                 onChange={(e) => {
+                                    const timeAsUnixSeconds = new Date(
+                                        e.target.value
+                                    );
+
                                     setFormData({
                                         ...formData,
-                                        date: e.target.value,
+                                        date: timeAsUnixSeconds,
                                     });
                                 }}
                             />
@@ -156,11 +151,12 @@ const BookingForm = (props) => {
                             <select
                                 name="time"
                                 id="time"
-                                value={formData?.customerInfo?.hoursBooked}
+                                value={formData?.hoursBooked?.[0]?.toString()}
                                 onChange={(e) => {
+                                    console.log("time: ", e.target.value);
                                     setFormData({
                                         ...formData,
-                                        hoursBooked: e.target.value,
+                                        hoursBooked: [parseInt(e.target.value)],
                                     });
                                 }}
                             >
