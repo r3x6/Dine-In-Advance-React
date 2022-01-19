@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import BookingForm from "./BookingForm";
 
 import { editPgActions } from "../../store/editPg";
@@ -12,6 +12,7 @@ const SERVER_URI = "http://localhost:5000";
 
 const EditPage = () => {
     const routerParams = useParams();
+    const [bookingIdExists, setBookingIdExists] = useState(false);
 
     // ALLOWS REDUX STORE TO BE ACCESSED
     const dispatch = useDispatch();
@@ -31,7 +32,13 @@ const EditPage = () => {
                 `${SERVER_URI}/api/booking?id=${routerParams.bookingId}`
             );
             const myJson = await response.json();
-            dispatch(editPgActions.setBookingToEdit(myJson));
+
+            if (myJson === null) {
+                setBookingIdExists(false);
+            } else {
+                setBookingIdExists(true);
+                dispatch(editPgActions.setBookingToEdit(myJson));
+            }
         }
 
         fetchBooking();
@@ -104,34 +111,37 @@ const EditPage = () => {
     return (
         <div>
             <h3>Edit Booking</h3>
-            <p>
-                You may use this page to edit your contact info or special
-                requests. To edit the date, time, or group size, please delete
-                this booking and create a new one.
-            </p>
-            {bookingToEdit?.deletedFlag && (
-                <p style={{ color: "red", fontWeight: "bold" }}>
-                    This booking has been deleted
+            {bookingIdExists ? (
+                <>
+                    <p>
+                        You may use this page to edit your contact info or
+                        special requests. To edit the date, time, or group size,
+                        please delete this booking and create a new one.
+                    </p>
+                    {bookingToEdit?.deletedFlag && (
+                        <p style={{ color: "red", fontWeight: "bold" }}>
+                            This booking has been deleted
+                        </p>
+                    )}
+                    <BookingForm
+                        initialData={bookingToEdit}
+                        onSubmit={handleFormSubmit}
+                        bookingId={routerParams.bookingId}
+                    />
+                    <div>
+                        {bookingToEdit?.deletedFlag || (
+                            <button onClick={handleDeleteClick}>Delete</button>
+                        )}
+                    </div>
+                </>
+            ) : (
+                <p>
+                    No booking found for ID {routerParams.bookingId}. Please
+                    double-check your booking ID and try again.
                 </p>
             )}
-            <BookingForm
-                initialData={bookingToEdit}
-                onSubmit={handleFormSubmit}
-                bookingId={routerParams.bookingId}
-            />
-            <div>
-                {bookingToEdit?.deletedFlag || (
-                    <button onClick={handleDeleteClick}>Delete</button>
-                )}
-            </div>
 
-            {/* ADD NAVLINK TO GO TO OTHER PAGES AS PER REQUIRED (CLASS NAME IS FOR ACTIVESTYLES) */}
-            {/* <NavLink
-        className={(navData) => (navData.isActive ? styles.active : "")}
-        to="/TARGETURL"
-      >
-        LINK TEXT
-      </NavLink> */}
+            <NavLink to="/main">Back to Main Page</NavLink>
         </div>
     );
 };
