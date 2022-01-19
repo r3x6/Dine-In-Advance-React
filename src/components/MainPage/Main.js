@@ -15,8 +15,110 @@ const Main = () => {
 
     // CALL STATES TO BE USED FROM STORE
     // const storeStateName = useSelector((state) => state.mainPg.stateName);
+    const storeRestaurant = useSelector((state) => state.mainPg.restaurant);
+    const storeGroup = useSelector((state) => state.mainPg.group);
+    const storeDate = useSelector((state) => state.mainPg.date);
 
     // OTHER REDUCERS HERE, WITH USEEFFECT TO SPECIFY TRIGGER IF NECESSARY
+
+    const restaurantOptions = "";
+    useEffect(async () => {
+        const checkOptions = async () => {
+            const payload = {
+                checker: "restaurant",
+            };
+            const res = await fetch(
+                `http://localhost:5000/api/checkAvailable`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
+            const data = await res.json();
+            return data;
+        };
+        // path before .map depends on API res
+        restaurantOptions = checkOptions().map((x) => {
+            return <option value={x.restaurantName}>{x.restaurantName}</option>;
+        });
+    }, []);
+
+    const groupOptions = [];
+    useEffect(async () => {
+        const checkOptions = async () => {
+            const payload = {
+                checker: "group",
+                restaurantState: storeRestaurant,
+            };
+            const res = await fetch(
+                `http://localhost:5000/api/checkAvailable`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
+            const data = await res.json();
+            return data;
+        };
+        // path before .map depends on API res
+        const groupSizeArr = checkOptions().tables.map((x) => x.maxGroupSize);
+        const groupSizeLimit = groupSizeArr.sort((a, b) => b - a)[0];
+
+        for (let i = 0; i < groupSizeLimit; i++) {
+            groupOptions.push(<option value={i + 1}>{i + 1}</option>);
+        }
+    }, [storeRestaurant]);
+
+    const timeOptions = "";
+    useEffect(async () => {
+        const checkOptions = async () => {
+            const payload = {
+                checker: "time",
+                restaurantState: storeRestaurant,
+                groupState: storeGroup,
+                dateState: storeDate,
+            };
+            const res = await fetch(
+                `http://localhost:5000/api/checkAvailable`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                }
+            );
+            const data = await res.json();
+            return data;
+        };
+
+        timeOptions = checkOptions().map((x) => {
+            return <option value={x.time}>{x.time}</option>;
+        });
+    }, [storeDate]);
+
+    const handleChangeRestaurant = (e) => {
+        e.preventDefault();
+        const restaurant = e.target.value;
+        dispatch(mainPgActions.changeRestaurant(restaurant));
+    };
+    const handleChangeGroup = (e) => {
+        e.preventDefault();
+        const group = e.target.value;
+        dispatch(mainPgActions.changeGroup(group));
+    };
+    const handleChangeDate = (e) => {
+        e.preventDefault();
+        const date = e.target.value;
+        dispatch(mainPgActions.changeDate(date));
+    };
+
     const handleNewBooking = (e) => {
         e.preventDefault();
 
@@ -88,13 +190,12 @@ const Main = () => {
                                     </label>
                                 </td>
                                 <td>
-                                    <select name="restaurant" id="restaurant">
-                                        <option value="Chang & Chin">
-                                            Chang {"&"} Chin
-                                        </option>
-                                        <option value="Burnt Ends">
-                                            Burnt Ends
-                                        </option>
+                                    <select
+                                        name="restaurant"
+                                        id="restaurant"
+                                        onChange={handleChangeRestaurant}
+                                    >
+                                        {restaurantOptions}
                                     </select>
                                 </td>
                             </tr>
@@ -103,12 +204,12 @@ const Main = () => {
                                     <label htmlFor="group">Group Size: </label>
                                 </td>
                                 <td>
-                                    <select name="group" id="group">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
+                                    <select
+                                        name="group"
+                                        id="group"
+                                        onChange={handleChangeGroup}
+                                    >
+                                        {groupOptions}
                                     </select>
                                 </td>
                             </tr>
@@ -117,7 +218,12 @@ const Main = () => {
                                     <label htmlFor="date">Date: </label>
                                 </td>
                                 <td>
-                                    <input name="date" id="date" type="date" />
+                                    <input
+                                        name="date"
+                                        id="date"
+                                        type="date"
+                                        onChange={handleChangeDate}
+                                    />
                                 </td>
                             </tr>
                             <tr>
@@ -126,20 +232,7 @@ const Main = () => {
                                 </td>
                                 <td>
                                     <select name="time" id="time">
-                                        <option value="9">9:00</option>
-                                        <option value="10">10:00</option>
-                                        <option value="11">11:00</option>
-                                        <option value="12">12:00</option>
-                                        <option value="13">13:00</option>
-                                        <option value="14">14:00</option>
-                                        <option value="15">15:00</option>
-                                        <option value="16">16:00</option>
-                                        <option value="17">17:00</option>
-                                        <option value="18">18:00</option>
-                                        <option value="19">19:00</option>
-                                        <option value="20">20:00</option>
-                                        <option value="21">21:00</option>
-                                        <option value="22">22:00</option>
+                                        {timeOptions}
                                     </select>
                                 </td>
                             </tr>

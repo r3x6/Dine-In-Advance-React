@@ -9,9 +9,9 @@ const mainPgSlice = createSlice({
         phone: "",
         email: "",
         restaurant: "",
-        group: 0,
-        date: Date.UTC(122, 1, 1),
-        time: 0,
+        group: "",
+        date: "",
+        time: "",
         req: "",
     },
     reducers: {
@@ -28,6 +28,15 @@ const mainPgSlice = createSlice({
             state.date = action.payload.date;
             state.time = action.payload.time;
             state.req = action.payload.req;
+        },
+        changeRestaurant(state, action) {
+            state.restaurant = action.payload;
+        },
+        changeGroup(state, action) {
+            state.group = action.payload;
+        },
+        changeDate(state, action) {
+            state.date = action.payload;
         },
     },
 });
