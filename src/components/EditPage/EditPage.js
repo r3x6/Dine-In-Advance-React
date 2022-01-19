@@ -7,8 +7,8 @@ import { editPgActions } from "../../store/editPg";
 
 //import styles from "./EditPage.module.css";
 
-const SERVER_URI = "https://dine-in-advance-server.herokuapp.com";
-//const SERVER_URI = "localhost:5000";
+//const SERVER_URI = "https://dine-in-advance-server.herokuapp.com";
+const SERVER_URI = "http://localhost:5000";
 
 // IMPORT NECESSARY COMPONENTS HERE
 // import Component from "./fileName";
@@ -46,12 +46,21 @@ const EditPage = () => {
     }, []);
 
     // on submit edit, it will call the PATCH Booking endpoint
-    function handleEditClick(e) {
+    function handleFormSubmit(e, bookingData) {
+        e.preventDefault();
+
         // send to API endpoint
         async function patchBooking() {
             const response = await fetch(
                 `${SERVER_URI}/api/booking?id=${routerParams.bookingId}`,
-                { method: "PATCH", body: JSON.stringify(bookingDetails) }
+                {
+                    method: "PATCH",
+                    mode: "cors",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(bookingData),
+                }
             );
             const myJson = await response.json();
             // do something with PATCH response
@@ -59,8 +68,11 @@ const EditPage = () => {
         }
 
         try {
-            const obj = JSON.parse(textAreaValue);
+            //const obj = JSON.parse(textAreaValue);
+            console.log("submitting form");
+            console.log("data is: ", JSON.stringify(bookingData));
             patchBooking();
+            //window.location.reload();
         } catch (err) {
             console.log(err);
         }
@@ -86,6 +98,9 @@ const EditPage = () => {
         }
     }
 
+    // debug
+    console.log("bookingDetails", bookingDetails);
+
     // PAGE HTML TEMPLATE WITH COMPONENTS WHERE NECESSARY (STATIC PARTS ARE AS DEFINED IN MAINPAGE)
     return (
         <div>
@@ -102,9 +117,12 @@ const EditPage = () => {
                     setTextAreaValue(e.target.value);
                 }}
             />
-            <BookingForm />
+            <BookingForm
+                initialData={bookingDetails}
+                onSubmit={handleFormSubmit}
+            />
             <div>
-                <button onClick={handleEditClick}>Save Changes</button>
+                {/* <button onClick={handleEditClick}>Save Changes</button> */}
                 <button onClick={handleDeleteClick}>Delete</button>
             </div>
 
