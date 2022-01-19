@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, NavLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BookingForm from "./BookingForm";
 
 import { editPgActions } from "../../store/editPg";
@@ -10,19 +10,15 @@ import { editPgActions } from "../../store/editPg";
 //const SERVER_URI = "https://dine-in-advance-server.herokuapp.com";
 const SERVER_URI = "http://localhost:5000";
 
-// IMPORT NECESSARY COMPONENTS HERE
-// import Component from "./fileName";
-
 const EditPage = () => {
     const routerParams = useParams();
-
-    const [bookingDetails, setBookingDetails] = useState();
 
     // ALLOWS REDUX STORE TO BE ACCESSED
     const dispatch = useDispatch();
 
     // CALL STATES TO BE USED FROM STORE
     // const storeStateName = useSelector((state) => state.mainPg.stateName);
+    const bookingToEdit = useSelector((state) => state.editPg.bookingToEdit); // creates pointer to Redux state
 
     // OTHER REDUCERS HERE, WITH USEEFFECT TO SPECIFY TRIGGER IF NECESSARY
 
@@ -35,15 +31,21 @@ const EditPage = () => {
                 `${SERVER_URI}/api/booking?id=${routerParams.bookingId}`
             );
             const myJson = await response.json();
-            setBookingDetails(myJson);
+            dispatch(editPgActions.setBookingToEdit(myJson));
         }
 
         fetchBooking();
-    }, []);
+    }, [dispatch, routerParams.bookingId]);
 
-    // on submit edit, it will call the PATCH Booking endpoint
-    function handleFormSubmit(e, bookingData) {
+    // callback for the form's onSubmit. This will take the form data and put it in the Redux store
+    // it will also send the data to the server via the PATCH Booking endpoint.
+    // For now, we will not have a confirmation page, but
+    // with Redux it will be possible to add it in later.
+    function handleFormSubmit(e, formData) {
         e.preventDefault();
+
+        // save data to Redux state
+        dispatch(editPgActions.setBookingToEdit(formData));
 
         // send to API endpoint
         async function patchBooking() {
@@ -55,17 +57,19 @@ const EditPage = () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(bookingData),
+                    body: JSON.stringify(formData),
                 }
             );
             const myJson = await response.json();
             // do something with PATCH response
-            console.log(myJson);
+            console.log("response from server:", myJson);
         }
 
         try {
-            console.log("submitting form");
-            console.log("data is: ", JSON.stringify(bookingData));
+            console.log(
+                "submitting form to server, with body: ",
+                JSON.stringify(formData)
+            );
             patchBooking();
             //window.location.reload();
         } catch (err) {
@@ -80,9 +84,9 @@ const EditPage = () => {
                 `${SERVER_URI}/api/booking?id=${routerParams.bookingId}`,
                 { method: "DELETE" }
             );
-            //const myJson = await response.json();
+            const myJson = await response.json();
             // do something with DELETE response
-            //console.log(myJson);
+            console.log(myJson);
             window.location.reload();
         }
 
@@ -93,18 +97,15 @@ const EditPage = () => {
         }
     }
 
-    // debug
-    console.log("bookingDetails", bookingDetails);
-
     // PAGE HTML TEMPLATE WITH COMPONENTS WHERE NECESSARY (STATIC PARTS ARE AS DEFINED IN MAINPAGE)
     return (
         <div>
             <h3>Edit Booking</h3>
-            {bookingDetails?.deletedFlag && (
+            {bookingToEdit?.deletedFlag && (
                 <p style={{ color: "red" }}>This booking has been deleted</p>
             )}
             <BookingForm
-                initialData={bookingDetails}
+                initialData={bookingToEdit}
                 onSubmit={handleFormSubmit}
             />
             <div>

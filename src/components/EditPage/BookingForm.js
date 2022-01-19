@@ -2,32 +2,17 @@ import React, { useEffect, useState } from "react";
 
 import styles from "./BookingForm.module.css";
 
-function handleSubmit() {}
-
 const BookingForm = (props) => {
-    const [bookingData, setBookingData] = useState({
-        customerInfo: {
-            name: "",
-            email: "",
-            contactNo: "",
-        },
-        groupSize: null,
-        specialRequests: "",
-        date: null, //unix time (seconds) with date. other parts are ignored. Interpreted in SG time zone
-        hoursBooked: [null],
-        restaurantName: "",
-        tableNumber: null,
-        deletedFlag: false,
-    });
+    const [formData, setFormData] = useState(props.initialData);
 
     useEffect(() => {
-        setBookingData(props.initialData);
+        setFormData(props.initialData);
     }, [props]);
 
     return (
         <form
             onSubmit={(e) => {
-                props.onSubmit(e, bookingData);
+                props.onSubmit(e, formData);
             }}
         >
             <table>
@@ -40,12 +25,12 @@ const BookingForm = (props) => {
                             <input
                                 name="name"
                                 id="name"
-                                value={bookingData?.customerInfo?.name}
+                                value={formData?.customerInfo?.name}
                                 onChange={(e) => {
-                                    setBookingData({
-                                        ...bookingData,
+                                    setFormData({
+                                        ...formData,
                                         customerInfo: {
-                                            ...bookingData.customerInfo,
+                                            ...formData.customerInfo,
                                             name: e.target.value,
                                         },
                                     });
@@ -61,12 +46,12 @@ const BookingForm = (props) => {
                             <input
                                 name="phone"
                                 id="phone"
-                                value={bookingData?.customerInfo?.contactNo}
+                                value={formData?.customerInfo?.contactNo}
                                 onChange={(e) => {
-                                    setBookingData({
-                                        ...bookingData,
+                                    setFormData({
+                                        ...formData,
                                         customerInfo: {
-                                            ...bookingData.customerInfo,
+                                            ...formData.customerInfo,
                                             contactNo: e.target.value,
                                         },
                                     });
@@ -82,12 +67,12 @@ const BookingForm = (props) => {
                             <input
                                 name="email"
                                 id="email"
-                                value={bookingData?.customerInfo?.email}
+                                value={formData?.customerInfo?.email}
                                 onChange={(e) => {
-                                    setBookingData({
-                                        ...bookingData,
+                                    setFormData({
+                                        ...formData,
                                         customerInfo: {
-                                            ...bookingData.customerInfo,
+                                            ...formData.customerInfo,
                                             email: e.target.value,
                                         },
                                     });
@@ -103,10 +88,10 @@ const BookingForm = (props) => {
                             <input
                                 name="restaurant"
                                 id="restaurant"
-                                value={bookingData?.restaurantName}
+                                value={formData?.restaurantName}
                                 onChange={(e) => {
-                                    setBookingData({
-                                        ...bookingData,
+                                    setFormData({
+                                        ...formData,
                                         restaurantName: e.target.value,
                                     });
                                 }}
@@ -123,10 +108,10 @@ const BookingForm = (props) => {
                             <select
                                 name="group"
                                 id="group"
-                                value={bookingData?.customerInfo?.groupSize}
+                                value={formData?.customerInfo?.groupSize}
                                 onChange={(e) => {
-                                    setBookingData({
-                                        ...bookingData,
+                                    setFormData({
+                                        ...formData,
                                         groupSize: e.target.value,
                                     });
                                 }}
@@ -148,10 +133,10 @@ const BookingForm = (props) => {
                                 name="date"
                                 id="date"
                                 type="date"
-                                value={bookingData?.customerInfo?.date}
+                                value={formData?.customerInfo?.date}
                                 onChange={(e) => {
-                                    setBookingData({
-                                        ...bookingData,
+                                    setFormData({
+                                        ...formData,
                                         date: e.target.value,
                                     });
                                 }}
@@ -166,10 +151,10 @@ const BookingForm = (props) => {
                             <select
                                 name="time"
                                 id="time"
-                                value={bookingData?.customerInfo?.hoursBooked}
+                                value={formData?.customerInfo?.hoursBooked}
                                 onChange={(e) => {
-                                    setBookingData({
-                                        ...bookingData,
+                                    setFormData({
+                                        ...formData,
                                         hoursBooked: e.target.value,
                                     });
                                 }}
