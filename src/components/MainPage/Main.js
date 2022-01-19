@@ -18,10 +18,12 @@ const Main = () => {
     const storeRestaurant = useSelector((state) => state.mainPg.restaurant);
     const storeGroup = useSelector((state) => state.mainPg.group);
     const storeDate = useSelector((state) => state.mainPg.date);
+    const storeRestaurantOptions = useSelector((state) => state.mainPg.restOpt);
+    const storeGroupOptions = useSelector((state) => state.mainPg.grpOpt);
+    const storeTimeOptions = useSelector((state) => state.mainPg.timeOpt);
 
     // OTHER REDUCERS HERE, WITH USEEFFECT TO SPECIFY TRIGGER IF NECESSARY
 
-    const restaurantOptions = "";
     useEffect(async () => {
         const checkOptions = async () => {
             const payload = {
@@ -30,7 +32,7 @@ const Main = () => {
             const res = await fetch(
                 `http://localhost:5000/api/checkAvailable`,
                 {
-                    method: "GET",
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -38,74 +40,77 @@ const Main = () => {
                 }
             );
             const data = await res.json();
-            return data;
+
+            const restOpt = data.map((x) => {
+                return (
+                    <option value={x.restaurantName}>{x.restaurantName}</option>
+                );
+            });
+            dispatch(mainPgActions.setRestaurantOptions(restOpt));
         };
-        // path before .map depends on API res
-        restaurantOptions = checkOptions().map((x) => {
-            return <option value={x.restaurantName}>{x.restaurantName}</option>;
-        });
+        checkOptions();
     }, []);
 
-    const groupOptions = [];
     useEffect(async () => {
-        const checkOptions = async () => {
-            const payload = {
-                checker: "group",
-                restaurantState: storeRestaurant,
+        if (storeRestaurant !== "") {
+            const checkOptions = async () => {
+                const payload = {
+                    checker: "group",
+                    restaurantState: storeRestaurant,
+                };
+                const res = await fetch(
+                    `http://localhost:5000/api/checkAvailable`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(payload),
+                    }
+                );
+                const data = await res.json();
+                const groupSizeArr = data.tables.map((x) => x.maxGroupSize);
+                const groupSizeLimit = groupSizeArr.sort((a, b) => b - a)[0];
+                dispatch(mainPgActions.setGroupOptions(groupSizeLimit));
             };
-            const res = await fetch(
-                `http://localhost:5000/api/checkAvailable`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                }
-            );
-            const data = await res.json();
-            return data;
-        };
-        // path before .map depends on API res
-        const groupSizeArr = checkOptions().tables.map((x) => x.maxGroupSize);
-        const groupSizeLimit = groupSizeArr.sort((a, b) => b - a)[0];
-
-        for (let i = 0; i < groupSizeLimit; i++) {
-            groupOptions.push(<option value={i + 1}>{i + 1}</option>);
+            checkOptions();
         }
     }, [storeRestaurant]);
 
-    const timeOptions = "";
     useEffect(async () => {
-        const checkOptions = async () => {
-            const payload = {
-                checker: "time",
-                restaurantState: storeRestaurant,
-                groupState: storeGroup,
-                dateState: storeDate,
-            };
-            const res = await fetch(
-                `http://localhost:5000/api/checkAvailable`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                }
-            );
-            const data = await res.json();
-            return data;
-        };
+        if (storeDate !== "") {
+            const checkOptions = async () => {
+                const payload = {
+                    checker: "time",
+                    restaurantState: storeRestaurant,
+                    groupState: storeGroup,
+                    dateState: storeDate,
+                };
+                const res = await fetch(
+                    `http://localhost:5000/api/checkAvailable`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(payload),
+                    }
+                );
+                const data = await res.json();
 
-        timeOptions = checkOptions().map((x) => {
-            return <option value={x.time}>{x.time}</option>;
-        });
+                const timeOpt = data.map((x) => {
+                    return <option value={x}>{x}</option>;
+                });
+                dispatch(mainPgActions.setTimeOptions(timeOpt));
+            };
+            checkOptions();
+        }
     }, [storeDate]);
 
     const handleChangeRestaurant = (e) => {
         e.preventDefault();
         const restaurant = e.target.value;
+
         dispatch(mainPgActions.changeRestaurant(restaurant));
     };
     const handleChangeGroup = (e) => {
@@ -195,7 +200,7 @@ const Main = () => {
                                         id="restaurant"
                                         onChange={handleChangeRestaurant}
                                     >
-                                        {restaurantOptions}
+                                        {storeRestaurantOptions}
                                     </select>
                                 </td>
                             </tr>
@@ -209,7 +214,7 @@ const Main = () => {
                                         id="group"
                                         onChange={handleChangeGroup}
                                     >
-                                        {groupOptions}
+                                        {storeGroupOptions}
                                     </select>
                                 </td>
                             </tr>
@@ -232,7 +237,7 @@ const Main = () => {
                                 </td>
                                 <td>
                                     <select name="time" id="time">
-                                        {timeOptions}
+                                        {storeTimeOptions}
                                     </select>
                                 </td>
                             </tr>

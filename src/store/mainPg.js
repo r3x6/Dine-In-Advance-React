@@ -13,6 +13,9 @@ const mainPgSlice = createSlice({
         date: "",
         time: "",
         req: "",
+        restOpt: "",
+        grpOpt: [],
+        timeOpt: "",
     },
     reducers: {
         // PUT REDUCERS FOR THIS PAGE HERE
@@ -37,6 +40,17 @@ const mainPgSlice = createSlice({
         },
         changeDate(state, action) {
             state.date = action.payload;
+        },
+        setRestaurantOptions(state, action) {
+            state.restOpt = action.payload;
+        },
+        setGroupOptions(state, action) {
+            for (let i = 0; i < action.payload; i++) {
+                state.grpOpt.push(<option value={i + 1}>{i + 1}</option>);
+            }
+        },
+        setTimeOptions(state, action) {
+            state.timeOpt = action.payload;
         },
     },
 });
