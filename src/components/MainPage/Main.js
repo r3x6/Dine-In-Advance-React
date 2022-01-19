@@ -42,11 +42,11 @@ const Main = () => {
         };
         // path before .map depends on API res
         restaurantOptions = checkOptions().map((x) => {
-            return <option value={x.restaurant}>{x.restaurant}</option>;
+            return <option value={x.restaurantName}>{x.restaurantName}</option>;
         });
     }, []);
 
-    const groupOptions = "";
+    const groupOptions = [];
     useEffect(async () => {
         const checkOptions = async () => {
             const payload = {
@@ -67,42 +67,21 @@ const Main = () => {
             return data;
         };
         // path before .map depends on API res
-        groupOptions = checkOptions().map((x) => {
-            return <option value={x.group}>{x.group}</option>;
-        });
+        const groupSizeArr = checkOptions().tables.map((x) => x.maxGroupSize);
+        const groupSizeLimit = groupSizeArr.sort((a, b) => b - a)[0];
+
+        for (let i = 0; i < groupSizeLimit; i++) {
+            groupOptions.push(<option value={i + 1}>{i + 1}</option>);
+        }
     }, [storeRestaurant]);
-
-    const dateOptions = "";
-    useEffect(async () => {
-        const checkOptions = async () => {
-            const payload = {
-                checker: "date",
-                groupState: storeGroup,
-            };
-            const res = await fetch(
-                `http://localhost:5000/api/checkAvailable`,
-                {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                }
-            );
-            const data = await res.json();
-            return data;
-        };
-
-        dateOptions = checkOptions().map((x) => {
-            return <option value={x.date}>{x.date}</option>;
-        });
-    }, [storeGroup]);
 
     const timeOptions = "";
     useEffect(async () => {
         const checkOptions = async () => {
             const payload = {
                 checker: "time",
+                restaurantState: storeRestaurant,
+                groupState: storeGroup,
                 dateState: storeDate,
             };
             const res = await fetch(
@@ -230,11 +209,7 @@ const Main = () => {
                                         id="group"
                                         onChange={handleChangeGroup}
                                     >
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
+                                        {groupOptions}
                                     </select>
                                 </td>
                             </tr>
@@ -257,20 +232,7 @@ const Main = () => {
                                 </td>
                                 <td>
                                     <select name="time" id="time">
-                                        <option value="9">9:00</option>
-                                        <option value="10">10:00</option>
-                                        <option value="11">11:00</option>
-                                        <option value="12">12:00</option>
-                                        <option value="13">13:00</option>
-                                        <option value="14">14:00</option>
-                                        <option value="15">15:00</option>
-                                        <option value="16">16:00</option>
-                                        <option value="17">17:00</option>
-                                        <option value="18">18:00</option>
-                                        <option value="19">19:00</option>
-                                        <option value="20">20:00</option>
-                                        <option value="21">21:00</option>
-                                        <option value="22">22:00</option>
+                                        {timeOptions}
                                     </select>
                                 </td>
                             </tr>
