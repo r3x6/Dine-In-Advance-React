@@ -176,6 +176,26 @@ const BookingForm = (props) => {
                             </select>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <label htmlFor="specialRequests">
+                                Special Requests:
+                            </label>
+                        </td>
+                        <td>
+                            <input
+                                name="specialRequests"
+                                id="specialRequests"
+                                value={formData?.specialRequests}
+                                onChange={(e) => {
+                                    setFormData({
+                                        ...formData,
+                                        specialRequests: e.target.value,
+                                    });
+                                }}
+                            />
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             {/* <NavLink to="/confirmation"> */}

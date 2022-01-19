@@ -71,7 +71,10 @@ const EditPage = () => {
                 JSON.stringify(formData)
             );
             patchBooking();
-            //window.location.reload();
+            // placeholder for Edit Confirmation page
+            window.alert(
+                "Booking successfully updated! You may now close the window."
+            );
         } catch (err) {
             console.log(err);
         }
