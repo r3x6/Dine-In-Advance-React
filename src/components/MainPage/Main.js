@@ -200,6 +200,7 @@ const Main = () => {
                                         id="restaurant"
                                         onChange={handleChangeRestaurant}
                                     >
+                                        <option value=""></option>
                                         {storeRestaurantOptions}
                                     </select>
                                 </td>

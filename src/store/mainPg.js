@@ -45,6 +45,7 @@ const mainPgSlice = createSlice({
             state.restOpt = action.payload;
         },
         setGroupOptions(state, action) {
+            state.grpOpt = [];
             for (let i = 0; i < action.payload; i++) {
                 state.grpOpt.push(<option value={i + 1}>{i + 1}</option>);
             }
