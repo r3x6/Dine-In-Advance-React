@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import styles from "./NewCfmPage.module.css";
 
 import { newCfmActions } from "../../store/newCfm";
@@ -11,6 +12,7 @@ import { newCfmActions } from "../../store/newCfm";
 const NewCfmPage = () => {
     // ALLOWS REDUX STORE TO BE ACCESSED
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     // CALL STATES TO BE USED FROM STORE
     // const storeStateName = useSelector((state) => state.mainPg.stateName);
@@ -105,15 +107,28 @@ const NewCfmPage = () => {
                 </tbody>
             </table>
 
-            <button onClick={handleSaveNewBooking}>Confirm Booking</button>
-
-            {storeBookingId && (
+            {storeBookingId ? (
                 <>
-                    <br />
                     <br />
                     <p>Booking made successfully!</p>
                     <p>Your booking id is:</p>
                     <h2>{storeBookingId}</h2>
+                    <br />
+                    <button
+                        onClick={() => {
+                            navigate(`/`);
+                        }}
+                    >
+                        Back to Main Page
+                    </button>
+                </>
+            ) : (
+                <>
+                    {" "}
+                    <br />
+                    <button onClick={handleSaveNewBooking}>
+                        Confirm Booking
+                    </button>
                 </>
             )}
 

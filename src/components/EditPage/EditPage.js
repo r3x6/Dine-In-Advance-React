@@ -129,6 +129,7 @@ const EditPage = () => {
                         bookingId={routerParams.bookingId}
                     />
                     <div>
+                        <br />
                         {bookingToEdit?.deletedFlag || (
                             <button onClick={handleDeleteClick}>Delete</button>
                         )}
@@ -140,7 +141,7 @@ const EditPage = () => {
                     double-check your booking ID and try again.
                 </p>
             )}
-
+            <br />
             <NavLink to="/main">Back to Main Page</NavLink>
         </div>
     );

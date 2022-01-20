@@ -200,6 +200,7 @@ const BookingForm = (props) => {
                     </tr>
                 </tbody>
             </table>
+            <br />
             {props.initialData?.deletedFlag || (
                 <button type="submit">Save Changes</button>
             )}

@@ -48,7 +48,12 @@ const MainPage = () => {
     return (
         <div className={styles.mainPageContainer}>
             <div className={styles.dashboard}>
-                <div className={styles.sidebar}></div>
+                <div className={styles.sidebar}>
+                    <br />
+                    <p className={styles.sidebarText}>
+                        d i n e / I N / a d v a n c e
+                    </p>
+                </div>
 
                 {/* PARTS THAT CHANGE WITH THE PAGES, ANYTHING U WANNA KEEP STATIC PUT OUTSIDE */}
                 <div className={styles.rightSide}>

@@ -105,7 +105,7 @@ const Main = () => {
             };
             checkOptions();
         }
-    }, [storeDate]);
+    }, [storeDate, storeRestaurant, storeGroup]);
 
     const handleChangeRestaurant = (e) => {
         e.preventDefault();
@@ -255,6 +255,7 @@ const Main = () => {
                         </tbody>
                     </table>
                     {/* <NavLink to="/confirmation"> */}
+                    <br />
                     <button type="submit">Submit</button>
                     {/* </NavLink> */}
                 </form>
@@ -268,6 +269,8 @@ const Main = () => {
                         name="bookingId"
                         id="bookingId"
                     />
+                    <br />
+                    <br />
                     <button type="submit">Submit</button>
                 </form>
             </div>

@@ -61,10 +61,15 @@
 .mainSection {
     float: none;
     min-width: inherit;
-    height: 65%;
+    height: 27em;
     width: auto;
     top: 21%;
     background-color: #121212;
     border-radius: 0 0 10px 0;
     padding: 1%;
+    overflow-y: scroll;
+}
+.sidebarText {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
 }
